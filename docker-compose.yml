@@ -1,0 +1,77 @@
+name: mayuko-portfolio
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: portfolio_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: portfolio_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d portfolio_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: always
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: portfolio_backend
+    volumes:
+      - ./backend:/app
+      - /app/.venv
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/portfolio_db
+      - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}
+      - ADMIN_UIDS=${ADMIN_UIDS:-}
+      - ALLOW_ORIGINS=${ALLOW_ORIGINS:-http://localhost:3000}
+      - FIREBASE_SERVICE_ACCOUNT_KEY=${FIREBASE_SERVICE_ACCOUNT_KEY:-}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: portfolio_frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    restart: always
+
+  mastra:
+    build:
+      context: ./mastra
+      dockerfile: Dockerfile
+    container_name: portfolio_mastra
+    volumes:
+      - ./mastra:/app
+      - /app/node_modules
+      - ./prof.md:/prof.md:ro
+    ports:
+      - "5678:4111"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    restart: always
+
+volumes:
+  postgres_data:

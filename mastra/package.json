@@ -1,0 +1,28 @@
+{
+  "name": "portfolio-mastra",
+  "version": "1.0.0",
+  "description": "Mastra AI Agent for Portfolio",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "mastra dev",
+    "build": "mastra build",
+    "start": "mastra start"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "dependencies": {
+    "@ai-sdk/google": "^1.1.0",
+    "@ai-sdk/openai": "^1.1.0",
+    "@mastra/core": "^1.47.0",
+    "@mastra/duckdb": "^1.5.0",
+    "@mastra/memory": "^1.21.2",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "mastra": "^1.16.0",
+    "typescript": "^5.0.0"
+  }
+}
