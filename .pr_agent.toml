@@ -1,0 +1,9 @@
+[config]
+custom_labels = []
+
+[pr_reviewer]
+require_focused_review = false
+
+[pr_agent]
+# 出力言語の指定（日本語）
+output_language = "ja"
