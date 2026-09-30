@@ -1,9 +1,8 @@
 [config]
-custom_labels = []
+output_language = "ja"
 
 [pr_reviewer]
-require_focused_review = false
+extra_instructions = "Please answer in Japanese (日本語で回答してください)."
 
-[pr_agent]
-# 出力言語の指定（日本語）
-output_language = "ja"
+[pr_description]
+extra_instructions = "Please answer in Japanese (日本語で回答してください)."
