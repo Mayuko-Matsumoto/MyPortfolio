@@ -17,14 +17,17 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({ achiev
         
         <div className="space-y-4">
           {achievements.map((ach, index) => {
-            const isPortfolioSite = ach.title.includes("認証機能付き") || ach.title.includes("ポートフォリオ");
-            const isKakeibo = ach.title.includes("家計簿") || ach.title.includes("kakeibo");
-            const hasImage = isPortfolioSite || isKakeibo ? true : !!ach.image_url;
-            const imgSrc = isPortfolioSite
-              ? "/portfolio-image.png"
-              : isKakeibo
-                ? "/kakeibo-image.png"
-                : (ach.image_url ? getImageUrl(ach.image_url) : "");
+            const getAchievementImage = (title: string, imageUrl?: string) => {
+              if (imageUrl) return getImageUrl(imageUrl);
+              if (title.includes("ContextSwitch") || title.includes("コッチー")) return "/contextswitch-1.png";
+              if (title.includes("問い合わせ") || title.includes("みらい賃貸")) return "/inquiry-ai-image.jpg";
+              if (title.includes("推し活")) return "/oshikatsu-image.jpg";
+              if (title.includes("認証機能付き") || title.includes("ポートフォリオ")) return "/portfolio-image.png";
+              return "/portfolio-image.png";
+            };
+
+            const imgSrc = getAchievementImage(ach.title, ach.image_url);
+            const hasImage = Boolean(imgSrc);
 
             return (
               <div 

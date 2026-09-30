@@ -17,6 +17,8 @@ if config.config_file_name is not None:
 
 # データベースのURLを環境変数から動的に設定
 database_url = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/portfolio_db")
+if database_url.startswith("postgresql://"):
+    database_url = database_url.replace("postgresql://", "postgresql+psycopg2://", 1)
 config.set_main_option("sqlalchemy.url", database_url)
 
 # モデルのメタデータを追加して、自動生成（autogenerate）を有効にする

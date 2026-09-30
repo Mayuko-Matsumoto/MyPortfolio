@@ -55,18 +55,18 @@ export function AchievementsTab() {
     }
   };
 
-  // タイトルと画像IDに基づいて、初期状態ならデフォルトのスクショを表示するロジック
-  const isPortfolioSiteForm = form.title.includes("認証機能付き") || form.title.includes("ポートフォリオ");
-  const isKakeiboForm = form.title.includes("家計簿") || form.title.includes("kakeibo");
-  const isDefaultImageForm = !form.image_id || form.image_id === 1;
+  // 実績の画像URLを柔軟に解決するヘルパー
+  const resolveAchievementImage = (title: string, imageId?: number, imageUrl?: string) => {
+    if (imageId) return getImageUrl(`/api/images/${imageId}`);
+    if (imageUrl) return getImageUrl(imageUrl);
+    if (title.includes("ContextSwitch") || title.includes("コッチー")) return "/contextswitch-1.png";
+    if (title.includes("問い合わせ") || title.includes("みらい賃貸")) return "/inquiry-ai-image.jpg";
+    if (title.includes("推し活")) return "/oshikatsu-image.jpg";
+    if (title.includes("認証機能付き") || title.includes("ポートフォリオ")) return "/portfolio-image.png";
+    return undefined;
+  };
 
-  const imageUrl = (isPortfolioSiteForm && isDefaultImageForm)
-    ? "/portfolio-image.png"
-    : (isKakeiboForm && isDefaultImageForm)
-      ? "/kakeibo-image.png"
-      : form.image_id
-        ? getImageUrl(`/api/images/${form.image_id}`)
-        : undefined;
+  const imageUrl = resolveAchievementImage(form.title, form.image_id);
 
   return (
     <div className="space-y-6 max-w-3xl">
@@ -117,20 +117,11 @@ export function AchievementsTab() {
 
       <div className="space-y-3">
         {achievements.map((ach) => {
-          const isPortfolioSite = ach.title.includes("認証機能付き") || ach.title.includes("ポートフォリオ");
-          const isKakeibo = ach.title.includes("家計簿") || ach.title.includes("kakeibo");
-          const isDefaultImage = !ach.image_id || ach.image_id === 1;
-          const hasImage = isPortfolioSite || isKakeibo ? true : !!ach.image_url;
-
-          const imgSrc = (isPortfolioSite && isDefaultImage)
-            ? "/portfolio-image.png"
-            : (isKakeibo && isDefaultImage)
-              ? "/kakeibo-image.png"
-              : (ach.image_url ? getImageUrl(ach.image_url) : "");
+          const imgSrc = resolveAchievementImage(ach.title, ach.image_id, ach.image_url);
 
           return (
             <div key={ach.id} className="bg-white border border-orange-100 rounded-2xl p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition">
-              {hasImage && (
+              {imgSrc && (
                 <img src={imgSrc} alt={ach.title} className="w-16 h-16 rounded-xl object-cover border border-orange-100" />
               )}
               <div className="flex-1 min-w-0">

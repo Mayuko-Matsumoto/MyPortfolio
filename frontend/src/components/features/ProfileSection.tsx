@@ -10,7 +10,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({ profile }) => {
 
   const avatarSrc = profile.avatar_url 
     ? getImageUrl(profile.avatar_url) 
-    : "/my-photo.jpeg";
+    : "/my-image.png";
 
   // プロフィール更新日時 (updated_at) からチケットシリアル番号を動的生成
   const getTicketNumber = () => {
