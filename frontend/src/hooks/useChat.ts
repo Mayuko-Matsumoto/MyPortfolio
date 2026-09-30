@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { sendChatMessage } from "@/services/api";
 
 export interface ChatMessage {
