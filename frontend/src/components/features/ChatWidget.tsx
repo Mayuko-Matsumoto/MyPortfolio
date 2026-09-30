@@ -97,7 +97,7 @@ export const ChatWidget: React.FC = () => {
                     </div>
                   )}
                   <div
-                    className={`max-w-[75%] rounded-2xl px-3.5 py-2 text-xs font-medium leading-relaxed ${
+                    className={`max-w-[85%] rounded-2xl px-3.5 py-2 text-xs font-medium leading-relaxed break-words [overflow-wrap:anywhere] ${
                       isBot
                         ? "bg-[#EBE78B]/20 text-[#1B2A5E] border-2 border-[#1B2A5E]/20 rounded-tl-none shadow-sm"
                         : "bg-[#1B2A5E] text-white rounded-tr-none shadow-sm"
