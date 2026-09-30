@@ -4,15 +4,10 @@ import React, { useState, useRef, useEffect } from "react";
 import { useChat } from "@/hooks/useChat";
 
 export const ChatWidget: React.FC = () => {
-  const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [inputText, setInputText] = useState("");
   const { messages, isSending, sendMessage, clearChat } = useChat();
   const chatEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // 新しいメッセージが届いたら最下部までスクロール
   useEffect(() => {
@@ -20,10 +15,6 @@ export const ChatWidget: React.FC = () => {
       chatEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages, isOpen]);
-
-  if (!mounted) {
-    return null;
-  }
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
