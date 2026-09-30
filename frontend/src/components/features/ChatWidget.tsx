@@ -62,7 +62,7 @@ export const ChatWidget: React.FC = () => {
 
       {/* チャットウィンドウ */}
       {isOpen && (
-        <div className="absolute bottom-18 right-0 w-[340px] sm:w-[380px] h-[520px] max-h-[75vh] bg-white border-2 border-[#1B2A5E] rounded-3xl shadow-[8px_8px_0px_0px_#1B2A5E] overflow-hidden flex flex-col animate-fade-in-up">
+        <div className="absolute bottom-20 right-0 w-[340px] sm:w-[380px] h-[520px] max-h-[75vh] bg-white border-2 border-[#1B2A5E] rounded-3xl shadow-[8px_8px_0px_0px_#1B2A5E] overflow-hidden flex flex-col z-50">
           {/* ヘッダー */}
           <div className="bg-[#1B2A5E] text-white p-4 flex items-center justify-between border-b-2 border-[#1B2A5E]">
             <div className="flex items-center gap-2">
