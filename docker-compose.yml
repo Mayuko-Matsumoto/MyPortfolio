@@ -35,6 +35,9 @@ services:
       - ADMIN_UIDS=${ADMIN_UIDS:-}
       - ALLOW_ORIGINS=${ALLOW_ORIGINS:-http://localhost:3000}
       - FIREBASE_SERVICE_ACCOUNT_KEY=${FIREBASE_SERVICE_ACCOUNT_KEY:-}
+      - MAIL_USERNAME=${MAIL_USERNAME:-}
+      - MAIL_PASSWORD=${MAIL_PASSWORD:-}
+      - MAIL_TO=${MAIL_TO:-}
     depends_on:
       db:
         condition: service_healthy
