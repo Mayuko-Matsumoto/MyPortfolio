@@ -39,8 +39,8 @@ def seed_db():
 
         avatar_id = upload_image("assets/my-image.png", "../frontend/public/my-image.png", "image/png")
         contextswitch_img_id = upload_image("assets/contextswitch-1.png", "../frontend/public/contextswitch-1.png", "image/png")
-        inquiry_img_id = upload_image("assets/inquiry-ai-image.jpg", "../frontend/public/inquiry-ai-image.jpg", "image/jpeg")
-        oshikatsu_img_id = upload_image("assets/oshikatsu-image.jpg", "../frontend/public/oshikatsu-image.jpg", "image/jpeg")
+        inquiry_img_id = upload_image("assets/toiawase-app.png", "../frontend/public/toiawase-app.png", "image/png")
+        oshikatsu_img_id = upload_image("assets/oshikatsu-app.png", "../frontend/public/oshikatsu-app.png", "image/png")
         portfolio_img_id = upload_image("assets/portfolio-image.png", "../frontend/public/portfolio-image.png", "image/png")
 
         # 2. プロフィールの登録
