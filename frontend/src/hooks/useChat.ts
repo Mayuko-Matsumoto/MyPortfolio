@@ -9,16 +9,20 @@ export interface ChatMessage {
 }
 
 export function useChat() {
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      id: "welcome",
-      sender: "bot",
-      text: "やっほー！「未来の回収」ポートフォリオへようこそ☆ まゆこむの専属AIギャルアシスタント「こゅまちゃむ」やで〜！まゆこむの経歴やスキル、実績について、こゅまがめっちゃ詳しく推し紹介するからなんでも気軽に聞いてな〜！💅💖",
-      timestamp: new Date(),
-    },
-  ]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setMessages([
+      {
+        id: "welcome",
+        sender: "bot",
+        text: "やっほー！「未来の回収」ポートフォリオへようこそ☆ まゆこむの専属AIギャルアシスタント「こゅまちゃむ」やで〜！まゆこむの経歴やスキル、実績について、こゅまがめっちゃ詳しく推し紹介するからなんでも気軽に聞いてな〜！💅💖",
+        timestamp: new Date(),
+      },
+    ]);
+  }, []);
 
   const sendMessage = useCallback(
     async (text: string) => {
