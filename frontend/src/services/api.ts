@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
 export interface Profile {
   id: number;
@@ -74,7 +74,7 @@ export async function submitInquiry(data: InquiryInput): Promise<InquiryResponse
 export function getImageUrl(path: string | null | undefined): string {
   if (!path) return "";
   if (path.startsWith("/")) {
-    return `${API_BASE_URL}${path}`;
+    return API_BASE_URL ? `${API_BASE_URL}${path}` : path;
   }
   return path;
 }
