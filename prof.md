@@ -66,7 +66,7 @@
   - **Go言語の厳格なエラーハンドリング**: 明示的なエラー処理（if err != nil）を徹底し、予期せぬシステムダウンを防ぎシームレスな操作感を実現。
 
 ### ④ 認証機能付きポートフォリオサイト（本作）
-- 形態: 完全個人開発（2週間）
+- 形態: 個人開発
 - 概要: Firebase Authenticationを用いたセキュアな認証機能とAIエージェント機能を組み込んだ、FastAPI（バックエンド）とNext.js（フロントエンド）によるモノレポ構成のモダンなポートフォリオサイト。
 - 技術スタック: Next.js, React, TypeScript, Tailwind CSS, Python, FastAPI, PostgreSQL, SQLAlchemy, Alembic, Docker, AWS, Firebase Authentication, Mastra
 - まゆこの担当領域 & こだわり:
