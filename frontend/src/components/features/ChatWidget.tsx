@@ -98,7 +98,7 @@ export const ChatWidget: React.FC = () => {
                 <img
                   src="/kolyuma-cham.png"
                   alt="こゅまちゃむ"
-                  className="w-full h-full object-cover scale-110"
+                  className="w-full h-full object-cover"
                 />
               </div>
               <div className="text-xs font-extrabold text-[#1B2A5E] leading-relaxed">
