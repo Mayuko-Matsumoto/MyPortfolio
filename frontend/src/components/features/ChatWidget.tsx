@@ -44,13 +44,17 @@ export const ChatWidget: React.FC = () => {
       {/* フローティングボタン (開閉用) */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 rounded-full bg-[#1B2A5E] text-[#EBE78B] flex items-center justify-center border-2 border-[#EBE78B] shadow-[4px_4px_0px_0px_#EBE78B] hover:scale-105 active:scale-95 transition-all cursor-pointer relative"
+        className="w-14 h-14 rounded-full bg-[#1B2A5E] text-[#EBE78B] flex items-center justify-center border-2 border-[#EBE78B] shadow-[4px_4px_0px_0px_#EBE78B] hover:scale-105 active:scale-95 transition-all cursor-pointer relative overflow-hidden"
         aria-label="チャットを開く"
       >
         {isOpen ? (
           <span className="text-xl font-bold select-none">✕</span>
         ) : (
-          <span className="text-2xl select-none">💬</span>
+          <img
+            src="/kolyuma-cham.png"
+            alt="こゅまちゃむ"
+            className="w-full h-full object-cover select-none"
+          />
         )}
         {!isOpen && (
           <span className="absolute -top-1 -right-1 flex h-3 w-3">
@@ -65,8 +69,12 @@ export const ChatWidget: React.FC = () => {
         <div className="absolute bottom-20 right-0 w-[340px] sm:w-[380px] h-[520px] max-h-[75vh] bg-white border-2 border-[#1B2A5E] rounded-3xl shadow-[8px_8px_0px_0px_#1B2A5E] overflow-hidden flex flex-col z-50">
           {/* ヘッダー */}
           <div className="bg-[#1B2A5E] text-white p-4 flex items-center justify-between border-b-2 border-[#1B2A5E]">
-            <div className="flex items-center gap-2">
-              <span className="text-lg select-none">💅</span>
+            <div className="flex items-center gap-2.5">
+              <img
+                src="/kolyuma-cham.png"
+                alt="こゅまちゃむ"
+                className="w-8 h-8 rounded-full object-cover border border-[#EBE78B] select-none flex-shrink-0"
+              />
               <div>
                 <h3 className="font-extrabold text-sm tracking-wide leading-none">ギャルアシスタント こゅまちゃむ</h3>
                 <span className="text-[9px] text-[#EBE78B] font-bold tracking-widest mt-0.5 block uppercase">
@@ -84,6 +92,21 @@ export const ChatWidget: React.FC = () => {
 
           {/* 会話表示エリア */}
           <div className="flex-1 overflow-y-auto p-4 space-y-3.5 bg-orange-50/10">
+            {/* ウェルカムカード (こゅまちゃむのご挨拶) */}
+            <div className="flex flex-col items-center justify-center p-3 bg-white/90 border-2 border-[#1B2A5E]/20 rounded-2xl text-center space-y-2 mb-3 shadow-sm select-none">
+              <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#1B2A5E] shadow-[2px_2px_0px_0px_#1B2A5E]">
+                <img
+                  src="/kolyuma-cham.png"
+                  alt="こゅまちゃむ"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="text-xs font-bold text-[#1B2A5E]">
+                はじめまして！こゅまちゃむです💖<br />
+                まゆこむの経歴やスキルのこと、なんでも聞いてな〜！✨
+              </div>
+            </div>
+
             {messages.map((msg) => {
               const isBot = msg.sender === "bot";
               return (
@@ -92,9 +115,11 @@ export const ChatWidget: React.FC = () => {
                   className={`flex ${isBot ? "justify-start" : "justify-end"} items-start gap-2`}
                 >
                   {isBot && (
-                    <div className="w-6 h-6 rounded-full bg-[#1B2A5E] text-[#EBE78B] text-[10px] flex items-center justify-center font-bold flex-shrink-0 select-none">
-                      こ
-                    </div>
+                    <img
+                      src="/kolyuma-cham.png"
+                      alt="こゅまちゃむ"
+                      className="w-6 h-6 rounded-full object-cover border border-[#1B2A5E] flex-shrink-0 select-none mt-0.5"
+                    />
                   )}
                   <div
                     className={`max-w-[85%] rounded-2xl px-3.5 py-2 text-xs font-medium leading-relaxed break-words [overflow-wrap:anywhere] ${
@@ -110,9 +135,11 @@ export const ChatWidget: React.FC = () => {
             })}
             {isSending && (
               <div className="flex justify-start items-center gap-2">
-                <div className="w-6 h-6 rounded-full bg-[#1B2A5E] text-[#EBE78B] text-[10px] flex items-center justify-center font-bold flex-shrink-0 select-none animate-pulse">
-                  こ
-                </div>
+                <img
+                  src="/kolyuma-cham.png"
+                  alt="こゅまちゃむ"
+                  className="w-6 h-6 rounded-full object-cover border border-[#1B2A5E] flex-shrink-0 select-none animate-pulse"
+                />
                 <div className="bg-[#EBE78B]/20 text-[#1B2A5E] border-2 border-[#1B2A5E]/20 rounded-2xl rounded-tl-none px-3.5 py-2 text-xs font-bold flex gap-1">
                   <span className="w-1.5 h-1.5 bg-[#1B2A5E] rounded-full animate-bounce"></span>
                   <span className="w-1.5 h-1.5 bg-[#1B2A5E] rounded-full animate-bounce [animation-delay:0.2s]"></span>
