@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "まつもとまゆこ｜portfolio",
-  description: "Ms.Engineerのコーディングブートキャンプで成長中のWebエンジニア「まつもとまゆこ」のポートフォリオサイトです。",
+  description: "コーディングブートキャンプを修了し就活中のWebエンジニア「まつもとまゆこ」のポートフォリオサイトです。",
 };
 
 export default function RootLayout({

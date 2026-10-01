@@ -23,7 +23,7 @@ const fallbackAchievements: Achievement[] = [
   {
     id: 1,
     title: "ContextSwitch（コッチー）",
-    description: "ユーザーの悩み（友人・恋愛・就活等）ごとにAIの記憶をカテゴリ分離し、文脈誤爆を防ぐ思考整理特化型AIチャットアプリ。実ユーザー21名による5日間のクローズドテスト運用を見据え、徹底したインフラ0円運用と高推論性能を両立したハイブリッドAI構成で構築。",
+    description: "ユーザーの悩み（友人・恋愛・就活等）ごとにAIの記憶をカテゴリ分離し、文脈誤爆を防ぐ思考整理特化型AIチャットアプリ。実ユーザー21名でのクローズドテスト運用から対話ログ分析・モデル検証、卒業発表会までを一貫して完遂。高推論性能とコスト最適化を両立したハイブリッドAI構成で構築。",
     tech_stack: "Next.js 16, TypeScript, Tailwind CSS v4, Hono, Supabase (pgvector), Drizzle ORM, Upstash Redis, Docker, OpenAI API, Stripe, Zod, Vitest",
     image_url: "/contextswitch-1.png",
     image_id: 1,
