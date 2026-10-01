@@ -93,15 +93,15 @@ export const ChatWidget: React.FC = () => {
           {/* 会話表示エリア */}
           <div className="flex-1 overflow-y-auto p-4 space-y-3.5 bg-orange-50/10">
             {/* ウェルカムカード (こゅまちゃむのご挨拶) */}
-            <div className="flex flex-col items-center justify-center p-3 bg-white/90 border-2 border-[#1B2A5E]/20 rounded-2xl text-center space-y-2 mb-3 shadow-sm select-none">
-              <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#1B2A5E] shadow-[2px_2px_0px_0px_#1B2A5E]">
+            <div className="flex flex-col items-center justify-center p-3.5 bg-white/95 border-2 border-[#1B2A5E]/20 rounded-2xl text-center space-y-2.5 mb-3 shadow-sm select-none">
+              <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-[#1B2A5E] shadow-[3px_3px_0px_0px_#1B2A5E] bg-orange-50 flex-shrink-0">
                 <img
                   src="/kolyuma-cham.png"
                   alt="こゅまちゃむ"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover scale-110"
                 />
               </div>
-              <div className="text-xs font-bold text-[#1B2A5E]">
+              <div className="text-xs font-extrabold text-[#1B2A5E] leading-relaxed">
                 はじめまして！こゅまちゃむです💖<br />
                 まゆこむの経歴やスキルのこと、なんでも聞いてな〜！✨
               </div>
