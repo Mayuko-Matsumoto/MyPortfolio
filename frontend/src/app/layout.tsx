@@ -16,6 +16,14 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "まつもとまゆこ｜portfolio",
   description: "コーディングブートキャンプを修了し就活中のWebエンジニア「まつもとまゆこ」のポートフォリオサイトです。",
+  icons: {
+    icon: [
+      { url: "/icon.png", type: "image/png" },
+      { url: "/favicon.ico" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/icon.png",
+  },
 };
 
 export default function RootLayout({
