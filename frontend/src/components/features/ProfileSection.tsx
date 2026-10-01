@@ -54,24 +54,24 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({ profile }) => {
           />
         </div>
         <div className="flex-1 space-y-3.5 text-center sm:text-left w-full">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div>
-              <span className="text-[9px] font-black tracking-widest text-[#1B2A5E]/60 uppercase block mb-0.5">Developer</span>
+          <div>
+            <span className="text-[9px] font-black tracking-widest text-[#1B2A5E]/60 uppercase block mb-0.5">Developer</span>
+            <div className="flex items-center justify-center sm:justify-start gap-2.5">
               <h2 className="text-2xl font-black tracking-wide">松本 麻由子</h2>
+              {/* 背景透過のスタイリッシュな GitHub ねこアイコン */}
+              <a
+                href="https://github.com/Mayuko-Matsumoto"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub Profile"
+                title="GitHub @Mayuko-Matsumoto"
+                className="text-[#1B2A5E] hover:text-[#1B2A5E]/70 transition-all cursor-pointer p-1 rounded-full hover:scale-115 active:scale-95 inline-flex items-center justify-center flex-shrink-0"
+              >
+                <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                </svg>
+              </a>
             </div>
-            {/* GitHub ねこアイコンリンク */}
-            <a
-              href="https://github.com/Mayuko-Matsumoto"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-[#1B2A5E] text-white hover:bg-[#1B2A5E]/90 border-2 border-[#1B2A5E] px-4 py-2 rounded-full text-xs font-black tracking-wider shadow-[3px_3px_0px_0px_#EBE78B] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#EBE78B] transition-all self-center sm:self-auto cursor-pointer group"
-            >
-              <svg className="w-4 h-4 fill-current group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
-                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-              </svg>
-              <span>GitHub Profile</span>
-              <span className="text-[10px] text-[#EBE78B]">↗</span>
-            </a>
           </div>
           <div>
             <span className="text-[9px] font-black tracking-widest text-[#1B2A5E]/60 uppercase block mb-0.5">Story</span>
