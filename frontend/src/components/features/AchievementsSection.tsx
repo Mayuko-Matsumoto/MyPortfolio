@@ -17,17 +17,15 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({ achiev
         
         <div className="space-y-4">
           {achievements.map((ach, index) => {
-            const getAchievementImage = (title: string, imageUrl?: string) => {
-              if (imageUrl) return getImageUrl(imageUrl);
+            const getAchievementFallback = (title: string) => {
               if (title.includes("ContextSwitch") || title.includes("コッチー")) return "/contextswitch-1.png";
-              if (title.includes("問い合わせ") || title.includes("みらい賃貸")) return "/inquiry-ai-image.jpg";
-              if (title.includes("推し活")) return "/oshikatsu-image.jpg";
-              if (title.includes("認証機能付き") || title.includes("ポートフォリオ")) return "/portfolio-image.png";
-              return "/portfolio-image.png";
+              if (title.includes("問い合わせ") || title.includes("みらい賃貸")) return "/toiawase-app.png";
+              if (title.includes("推し活")) return "/oshikatsu-app.png";
+              return "/portfolio-app.png";
             };
 
-            const imgSrc = getAchievementImage(ach.title, ach.image_url);
-            const hasImage = Boolean(imgSrc);
+            const fallbackSrc = getAchievementFallback(ach.title);
+            const imgSrc = ach.image_url ? getImageUrl(ach.image_url) : fallbackSrc;
 
             return (
               <div 
@@ -38,15 +36,19 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({ achiev
                 <div className="absolute top-1/2 -left-2 w-4 h-4 rounded-full bg-[#EBE78B] border-r-2 border-[#1B2A5E] transform -translate-y-1/2 z-10"></div>
                 <div className="absolute top-1/2 -right-2 w-4 h-4 rounded-full bg-[#EBE78B] border-l-2 border-[#1B2A5E] transform -translate-y-1/2 z-10"></div>
 
-                {hasImage && (
-                  <div className="relative w-full sm:w-28 aspect-video sm:aspect-square rounded-xl overflow-hidden border-2 border-[#1B2A5E] bg-white flex-shrink-0 shadow-sm">
-                    <img
-                      src={imgSrc}
-                      alt={ach.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                )}
+                <div className="relative w-full sm:w-28 aspect-video sm:aspect-square rounded-xl overflow-hidden border-2 border-[#1B2A5E] bg-white flex-shrink-0 shadow-sm">
+                  <img
+                    src={imgSrc}
+                    alt={ach.title}
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      if (target.src !== fallbackSrc) {
+                        target.src = fallbackSrc;
+                      }
+                    }}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
                 
                 <div className="flex-1 space-y-2 w-full text-left">
                   <div className="flex justify-between items-center">
