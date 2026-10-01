@@ -1,0 +1,8 @@
+[config]
+output_language = "ja"
+
+[pr_reviewer]
+extra_instructions = "Please answer in Japanese (日本語で回答してください)."
+
+[pr_description]
+extra_instructions = "Please answer in Japanese (日本語で回答してください)."
