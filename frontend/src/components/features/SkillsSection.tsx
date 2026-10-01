@@ -68,7 +68,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
 
         {/* チケットの注釈（NOTES）風・極小レベルガイド */}
         <div className="text-[9px] font-mono text-[#1B2A5E]/60 text-right mt-2.5 tracking-tight">
-          * LEVEL: ★5 得意・強み(AI/RAG) / ★4 実務自走可 / ★3 基礎理解
+          * LEVEL: ★5 得意・強み / ★4 実務自走可 / ★3 基礎理解
         </div>
       </div>
     </div>
