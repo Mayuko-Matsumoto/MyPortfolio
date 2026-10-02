@@ -40,26 +40,51 @@ export const ChatWidget: React.FC = () => {
   ];
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 font-sans">
+    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 font-sans flex flex-col items-end">
+      {/* 開いていない時に表示する可愛い吹き出し (Tooltip Bubble) */}
+      {!isOpen && (
+        <div 
+          onClick={() => setIsOpen(true)}
+          className="mb-3 animate-bounce cursor-pointer group flex flex-col items-end select-none"
+        >
+          <div className="bg-white border-2 border-[#1B2A5E] text-[#1B2A5E] px-3 py-2 rounded-2xl shadow-[4px_4px_0px_0px_#1B2A5E] flex items-center gap-2 transition-transform group-hover:scale-105">
+            <span className="text-xs font-black tracking-wide flex items-center gap-1.5 whitespace-nowrap">
+              <span className="bg-[#1B2A5E] text-[#EBE78B] text-[9px] font-black px-1.5 py-0.5 rounded-md border border-[#EBE78B]">
+                AI BOT
+              </span>
+              💬 こゅまちゃむに質問してな☆
+            </span>
+          </div>
+          {/* 吹き出しの三角しっぽ */}
+          <div className="w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-[#1B2A5E] mr-6 -mt-[1px]"></div>
+        </div>
+      )}
+
       {/* フローティングボタン (開閉用) */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 rounded-full bg-[#1B2A5E] text-[#EBE78B] flex items-center justify-center border-2 border-[#EBE78B] shadow-[4px_4px_0px_0px_#EBE78B] hover:scale-105 active:scale-95 transition-all cursor-pointer relative overflow-hidden"
+        className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white text-[#1B2A5E] flex items-center justify-center border-3 border-[#1B2A5E] shadow-[6px_6px_0px_0px_#1B2A5E] ring-4 ring-[#EBE78B] hover:scale-105 active:scale-95 transition-all cursor-pointer relative overflow-hidden group"
         aria-label="チャットを開く"
       >
         {isOpen ? (
-          <span className="text-xl font-bold select-none">✕</span>
+          <span className="text-2xl font-bold select-none bg-[#1B2A5E] text-[#EBE78B] w-full h-full flex items-center justify-center">✕</span>
         ) : (
-          <img
-            src="/kolyuma-cham.png"
-            alt="こゅまちゃむ"
-            className="w-full h-full object-cover select-none"
-          />
+          <div className="relative w-full h-full">
+            <img
+              src="/kolyuma-cham.png"
+              alt="こゅまちゃむ"
+              className="w-full h-full object-cover select-none"
+            />
+            {/* AIバッジ (ボタン下部) */}
+            <div className="absolute bottom-0 inset-x-0 bg-[#1B2A5E] text-[#EBE78B] text-[8px] sm:text-[9px] font-black py-0.5 text-center border-t border-[#EBE78B] uppercase tracking-wider">
+              AI CHAT
+            </div>
+          </div>
         )}
         {!isOpen && (
-          <span className="absolute -top-1 -right-1 flex h-3 w-3">
+          <span className="absolute top-1 right-1 flex h-3.5 w-3.5">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+            <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-red-500 border border-white"></span>
           </span>
         )}
       </button>

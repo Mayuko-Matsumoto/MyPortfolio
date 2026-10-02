@@ -77,9 +77,9 @@ def seed_db():
             order=3
         )
         ach4 = Achievement(
-            title="認証機能付きポートフォリオサイト",
-            description="Firebase Authenticationを用いたセキュアな認可チェックと、RAG自己紹介チャットボットを搭載したフルスタック・モノレポ構成のポートフォリオサイト（本作）。",
-            tech_stack="Next.js, FastAPI, Mastra, PostgreSQL, SQLAlchemy, Alembic, Docker, AWS, Firebase",
+            title="専属AIギャル「こゅまちゃむ」搭載 Webポートフォリオ",
+            description="Mastra × OpenAI API を活用した専属AIギャルアシスタント「こゅまちゃむ」が訪問者を楽しく出迎えるインタラクティブ・ポートフォリオ。プロフィールデータをコンテキスト注入（RAG構造）し、自然な会話で経歴・スキルを紹介。FastAPI + PostgreSQL + Next.js (App Router) によるモダンモノレポ構成。",
+            tech_stack="Next.js 15, FastAPI, Mastra (AI Agent), OpenAI API, PostgreSQL, Docker, AWS, Firebase Auth, Tailwind CSS",
             image_id=portfolio_img_id,
             order=4
         )
