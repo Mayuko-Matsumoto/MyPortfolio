@@ -84,7 +84,7 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({ achiev
                   {isContextSwitch && (
                     <div className="pt-1.5 flex justify-end">
                       <span className="inline-flex items-center gap-1 text-[10px] font-black bg-[#1B2A5E] text-[#EBE78B] px-3 py-1 rounded-full border border-[#1B2A5E] shadow-[2px_2px_0px_0px_#EBE78B] group-hover:bg-[#EBE78B] group-hover:text-[#1B2A5E] group-hover:shadow-[2px_2px_0px_0px_#1B2A5E] transition-all">
-                        ✨ 卒業発表LP・詳細資料を見る ➔
+                        詳細情報を見る ➔
                       </span>
                     </div>
                   )}

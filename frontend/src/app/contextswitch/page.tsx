@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export const metadata = {
   title: 'ContextSwitch（コッチー）プロダクト詳細 & 採用技術ドキュメント | まゆこポートフォリオ',
-  description: 'AIの記憶混ざりを防ぐ思考整理特化型チャット「ContextSwitch（コッチー）」の公式解説ページ。SimpleMem×Hindsight独自記憶構造、実ユーザー21名検証データ、実機デモ動画等を掲載。',
+  description: 'AIの記憶混ざりを防ぐ思考整理特化型チャット「ContextSwitch（コッチー）」の解説ページ。SimpleMem×Hindsight独自記憶構造、実ユーザー21名検証データ、実機デモ動画等を掲載。',
 };
 
 export default function ContextSwitchLP() {
@@ -151,7 +151,7 @@ export default function ContextSwitchLP() {
         {/* --- HERO HEADER --- */}
         <section className="space-y-4 text-center sm:text-left border-b border-slate-800 pb-10">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#EBE78B]/10 border border-[#EBE78B]/30 text-[#EBE78B] text-xs font-black tracking-widest uppercase">
-            <span>✨ ContextSwitch (コッチー) 技術詳細 & 公式プレゼンスライド</span>
+            <span>✨ ContextSwitch (コッチー) 技術詳細 & プレゼンスライド</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
@@ -159,7 +159,7 @@ export default function ContextSwitchLP() {
           </h1>
 
           <p className="text-sm sm:text-base font-medium text-slate-300 leading-relaxed max-w-3xl">
-            AIの前提記憶とコンテキスト切り替えを自律制御する思考整理チャット「ContextSwitch（コッチー）」の公式発表スライド全11枚と、技術アーキテクチャ、実証検証データを収録した技術解説ドキュメントです。
+            AIの前提記憶とコンテキスト切り替えを自律制御する思考整理チャット「ContextSwitch（コッチー）」のプレゼンスライド全11枚と、技術アーキテクチャ、実証検証データを収録した技術解説ドキュメントです。
           </p>
         </section>
 
