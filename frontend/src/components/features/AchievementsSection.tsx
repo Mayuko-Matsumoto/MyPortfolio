@@ -1,6 +1,7 @@
 'use client';
 
 import React from "react";
+import Link from "next/link";
 import { Achievement, getImageUrl } from "@/services/api";
 
 interface AchievementsSectionProps {
@@ -19,6 +20,7 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({ achiev
         
         <div className="space-y-4">
           {achievements.map((ach, index) => {
+            const isContextSwitch = ach.title.includes("ContextSwitch") || ach.title.includes("コッチー");
             const getAchievementFallback = (title: string) => {
               if (title.includes("ContextSwitch") || title.includes("コッチー")) return "/contextswitch-1.png";
               if (title.includes("問い合わせ") || title.includes("みらい賃貸")) return "/toiawase-app.png";
@@ -29,10 +31,11 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({ achiev
             const fallbackSrc = getAchievementFallback(ach.title);
             const imgSrc = ach.image_url ? getImageUrl(ach.image_url) : fallbackSrc;
 
-            return (
+            const cardContent = (
               <div 
-                key={ach.id} 
-                className="border-2 border-[#1B2A5E] rounded-2xl p-4 bg-white/80 backdrop-blur-sm shadow-[4px_4px_0px_0px_#1B2A5E] flex flex-col sm:flex-row gap-4 items-center relative overflow-hidden"
+                className={`border-2 border-[#1B2A5E] rounded-2xl p-4 bg-white/80 backdrop-blur-sm shadow-[4px_4px_0px_0px_#1B2A5E] flex flex-col sm:flex-row gap-4 items-center relative overflow-hidden transition-all ${
+                  isContextSwitch ? "hover:scale-[1.01] hover:border-[#1B2A5E] hover:shadow-[6px_6px_0px_0px_#1B2A5E] cursor-pointer group" : ""
+                }`}
               >
                 {/* ミニチケット用の切り欠き (デザインの細部へのこだわり) */}
                 <div className="absolute top-1/2 -left-2 w-4 h-4 rounded-full bg-[#EBE78B] border-r-2 border-[#1B2A5E] transform -translate-y-1/2 z-10"></div>
@@ -48,13 +51,15 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({ achiev
                         target.src = fallbackSrc;
                       }
                     }}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
                 
                 <div className="flex-1 space-y-2 w-full text-left">
                   <div className="flex justify-between items-center">
-                    <h4 className="font-extrabold text-sm sm:text-base">{ach.title}</h4>
+                    <h4 className="font-extrabold text-sm sm:text-base group-hover:text-[#1B2A5E]">
+                      {ach.title}
+                    </h4>
                     <span className="text-[9px] font-black px-2 py-0.5 border border-[#1B2A5E] rounded-full bg-white select-none">
                       #0{index + 1}
                     </span>
@@ -74,9 +79,28 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({ achiev
                       </span>
                     ))}
                   </div>
+
+                  {/* ContextSwitchの場合のみ表示する詳細LPボタン */}
+                  {isContextSwitch && (
+                    <div className="pt-1.5 flex justify-end">
+                      <span className="inline-flex items-center gap-1 text-[10px] font-black bg-[#1B2A5E] text-[#EBE78B] px-3 py-1 rounded-full border border-[#1B2A5E] shadow-[2px_2px_0px_0px_#EBE78B] group-hover:bg-[#EBE78B] group-hover:text-[#1B2A5E] group-hover:shadow-[2px_2px_0px_0px_#1B2A5E] transition-all">
+                        ✨ 卒業発表LP・詳細資料を見る ➔
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             );
+
+            if (isContextSwitch) {
+              return (
+                <Link key={ach.id} href="/contextswitch" className="block text-left text-inherit">
+                  {cardContent}
+                </Link>
+              );
+            }
+
+            return <div key={ach.id}>{cardContent}</div>;
           })}
         </div>
       </div>
