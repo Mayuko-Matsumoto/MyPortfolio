@@ -102,11 +102,19 @@ export default function ContextSwitchLP() {
       id: 10,
       slideNumber: "10",
       title: "マネタイズ & Proプラン (Business Model & Scalability)",
-      subtitle: "Freemiumモデル (記憶3件) ＆ Stripe Proプラン (記憶無制限・アーカイブ)",
+      subtitle: "Freemiumモデル (記憶3件) ＆ Stripe Proプラン ＋ B2B展開のアイディア考察",
       image: "/contextswitch/slides/contextswitch-10.png",
       alt: "スライド 10: ビジネスモデル",
-      description: "無料プランでは記憶保持を3件に制限し、ヘビーユーザー向けにProプラン（記憶無制限・アーカイブ全開放）を提供。BtoC課金に加えてコンテキスト制御技術のBtoB展開を視野に入れた持続可能なビジネスモデルを設計しています。",
+      description: "無料プラン（記憶3件）に加え、Stripe決済連携のProプラン（月額500円）を用意。ただしB2C課金のみではコスト面で厳しい側面もあり、持続可能な運用のアイディアとしてB2Bへの展開の可能性も模索しています。",
       video: null,
+      details: (
+        <div className="p-4 bg-slate-950 border border-slate-800 rounded-2xl text-xs space-y-1.5 pt-2">
+          <span className="font-extrabold text-[#EBE78B] text-sm block">💡 B2Bマネタイズの可能性についての考察</span>
+          <p className="text-slate-300 leading-relaxed font-medium">
+            B2C単体では収益化が難しい側面があるため、プライバシー保護とオプトイン（同意）取得を大前提として、お悩み相談から得られる感情傾向などのマクロデータを、教育機関や若年層向け企業に匿名データとして提供するモデルなどもひとつのアイディアとして考えています。
+          </p>
+        </div>
+      ),
     },
     {
       id: 11,
