@@ -43,8 +43,8 @@ export default function ContextSwitchLP() {
       slideNumber: "04",
       title: "デモンストレーション (Demonstration)",
       subtitle: "コンテキスト分離 / キオク編集 / ProプランとStripe決済",
-      image: "/contextswitch/slides/contextswitch-4.png",
-      alt: "スライド 04: デモンストレーション",
+      image: null,
+      alt: "スライド 04: デモンストレーション動画",
       description: "「家族」部屋で親との比較に関する悩みを相談し、対話完了時にAIが「母親に比較された」という前提を自動抽出。別の「恋愛」部屋へ遷移しても過去の文脈は干渉しません。Stripe決済連携によるProプラン（月額500円）では、鍵がかかった過去の相談アーカイブを自由に振り返ることができます。",
       video: "/contextswitch/slides/0825.mp4",
     },
@@ -185,26 +185,27 @@ export default function ContextSwitchLP() {
                 </div>
               </div>
 
-              {/* 本物のスライド全画面画像 */}
-              <div className="rounded-2xl overflow-hidden border-2 border-slate-700/80 bg-slate-950 p-2 shadow-2xl relative">
-                <img
-                  src={section.image}
-                  alt={section.alt}
-                  className="w-full h-auto rounded-xl object-contain mx-auto shadow-md"
-                />
-              </div>
+              {/* 静止画スライド画像 (section.image がある場合のみ表示) */}
+              {section.image && (
+                <div className="rounded-2xl overflow-hidden border-2 border-slate-700/80 bg-slate-950 p-2 shadow-2xl relative">
+                  <img
+                    src={section.image}
+                    alt={section.alt}
+                    className="w-full h-auto rounded-xl object-contain mx-auto shadow-md"
+                  />
+                </div>
+              )}
 
-              {/* 04のデモ動画プレイヤー (動的コンテンツ) */}
+              {/* 04 デモンストレーション動画プレイヤー (iPhoneフレーム付きメインビジュアル) */}
               {section.video && (
-                <div className="space-y-3 pt-2">
-                  <span className="text-xs font-black text-[#EBE78B] uppercase tracking-wider block">
-                    🎬 実機デモ動画 (発表会デモナレーション連動)
-                  </span>
+                <div className="space-y-3">
                   <div className="relative max-w-sm mx-auto border-4 border-slate-700 bg-slate-950 rounded-[2.5rem] p-2 shadow-2xl overflow-hidden">
                     <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-4 bg-slate-800 rounded-full z-10 pointer-events-none"></div>
                     <video
                       controls
-                      preload="metadata"
+                      autoPlay
+                      loop
+                      muted
                       playsInline
                       className="w-full h-auto rounded-[2rem] border border-slate-800"
                     >
@@ -221,6 +222,13 @@ export default function ContextSwitchLP() {
                   {section.description}
                 </p>
               </div>
+
+              {/* 詳細補足ドロワー */}
+              {section.details && (
+                <div className="pt-2">
+                  {section.details}
+                </div>
+              )}
             </section>
           ))}
         </div>
