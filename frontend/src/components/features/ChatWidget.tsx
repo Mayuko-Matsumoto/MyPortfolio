@@ -32,6 +32,7 @@ export const ChatWidget: React.FC = () => {
   const quickQuestions = [
     "経歴を教えて！",
     "得意なスキルは？",
+    "希望の働き方は？",
     "コッチーってどんなアプリ？",
     "制作実績を教えて！",
     "将来のビジョンは？",
