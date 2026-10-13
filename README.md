@@ -1,32 +1,36 @@
 # 🎟️ 認証機能付きポートフォリオサイト (松本 麻由子)
 
-Next.js, FastAPI, Mastra (AI Agent), PostgreSQL を使用した、フルスタックでモダンなモノレポ構成のポートフォリオサイトです。
-ビジュアルには Y2K チケット風のデザインシステムを独自に組み込み、遊び心と実用性を兼ね備えた体験を提供します。
+> **本番公開URL**: [https://mayuko-matsumoto.com](https://mayuko-matsumoto.com)  
+> Next.js 16, FastAPI, Mastra (AI Agent), PostgreSQL を使用した、フルスタックでモダンなモノレポ構成のポートフォリオWebサイトです。  
+> ビジュアルには **Y2K チケット風** のデザインシステムを独自に組み込み、遊び心と実用性を兼ね備えた体験を提供します。
 
 ---
 
 ## 🏗️ システムアーキテクチャ
 
-本プロジェクトは Docker Compose を用いて各コンポーネントを独立させて動かしており、実務におけるマイクロサービスやモノレポ開発に近い設計思想で構築されています。
+本プロジェクトは Docker Compose を用いて各サービスを独立してコンテナ化しており、実務におけるマイクロサービスやモノレポ開発に近い設計思想で構築・AWS EC2 上で本番運用されています。
 
 ```mermaid
 flowchart TD
-    User([ブラウザ]) -->|閲覧/対話| FE[Next.js App Router]
-    User -->|管理操作| Admin[管理画面 /admin]
+    User([訪問者 / 採用担当者]) -->|HTTPS (443)| Nginx[Nginx Reverse Proxy / SSL]
     
-    FE -->|APIリクエスト| BE[FastAPI]
-    Admin -->|Firebase認証・管理| Firebase[Firebase Authentication]
-    Admin -->|Bearerトークン付きAPI| BE
-    
-    BE -->|データ永続化/画像保存| DB[(PostgreSQL)]
-    BE -->|中継リクエスト| Mastra[Mastra AI Server]
-    
-    Mastra -->|RAGコンテキスト読み込み| MD[prof.md]
-    Mastra -->|AI推論| OpenAI[OpenAI API / GPT-4o-mini]
+    subgraph AWS EC2 [AWS EC2 Production Server]
+        Nginx -->|リバースプロキシ| FE[Next.js 16 App Router\nポートフォリオ / 詳細LP]
+        Nginx -->|/api/* 転送| BE[FastAPI Backend\nREST API]
+        
+        FE -->|クライアント対話| BE
+        FE -->|認証・管理操作| Firebase[Firebase Authentication]
+        
+        BE -->|データ永続化 / 画像バイナリ| DB[(PostgreSQL 16)]
+        BE -->|チャット転送| Mastra[Mastra AI Server\nAgent Framework]
+        
+        Mastra -->|コンテキスト読み込み| MD[prof.md\n自己紹介 & 就職希望条件]
+        Mastra -->|推論| OpenAI[OpenAI API / gpt-5-mini]
+    end
     
     classDef default fill:#fff,stroke:#1B2A5E,stroke-width:2px;
     classDef main fill:#FFF8E7,stroke:#FF9900,stroke-width:2px;
-    class FE,Admin,BE,Mastra main;
+    class FE,BE,Mastra main;
 ```
 
 ---
@@ -35,31 +39,39 @@ flowchart TD
 
 | レイヤー | 使用技術 / ライブラリ | 役割・選定理由 |
 | :--- | :--- | :--- |
-| **フロントエンド** | Next.js 15 (App Router), TypeScript, TailwindCSS v4 | 高速なレンダリングと、コンポーネントの再利用性に優れた UI 構築のため。 |
-| **バックエンド** | Python 3.12, FastAPI, SQLAlchemy, Alembic | 高いパフォーマンスを持つ非同期 API 設計と、堅牢なスキーマ定義のため。 |
-| **AI エージェント** | Mastra 1.18, OpenAI SDK, Node.js | エージェント型のワークフローを容易にし、自己紹介ファイルを動的にインプットするため。 |
-| **データベース** | PostgreSQL 16 | トランザクションの信頼性、バイナリ画像データの保持のため。 |
-| **認証・認可** | Firebase Authentication, Firebase Admin SDK | セキュアなログインと、特定の管理者 UID に基づくエンドポイント保護のため。 |
-| **インフラ** | Docker, Docker Compose | 開発環境および将来的な AWS (EC2) 本番デプロイ時の一貫性維持のため。 |
+| **フロントエンド** | Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4 | 最新スタックによる高速レンダリングと型安全性、統一感あるコンポーネント設計。 |
+| **バックエンド** | Python 3.12, FastAPI, SQLAlchemy, Alembic | 高速な非同期 API 設計と、厳格な Pydantic バリデーション、安全なマイグレーション管理。 |
+| **AI エージェント** | Mastra 1.16+, OpenAI SDK (`gpt-5-mini`), Node.js | エージェント駆動型ワークフロー。`prof.md` の動的インプットによる RAG 構造。 |
+| **データベース** | PostgreSQL 16 | ACID トランザクションの信頼性、画像バイナリデータの安全な保持。 |
+| **認証・認可** | Firebase Authentication, Firebase Admin SDK | セキュアなログイン認証と、環境変数 `ADMIN_UIDS` に基づく厳格な管理者認可ガード。 |
+| **インフラ / 運用** | AWS EC2 (Ubuntu), Nginx (Let's Encrypt SSL), Docker, Docker Compose | 本番環境の完全コンテナ化による再現性担保と、セキュアなリバースプロキシ運用。 |
 
 ---
 
 ## 🌟 主な機能
 
-### 1. Y2Kチケット風トップページ
-*   プロフィール、スキル、制作実績、お問い合わせフォームをシームレスに配置。
-*   チケットの更新日時（`updated_at`）から自動でシリアルナンバー（`No. YYYY-MMDD`）を生成する遊び心溢れる設計。
+### 1. Y2K チケット風トップページ
+*   プロフィール、保有スキル一覧、制作実績一覧、お問い合わせフォームをシームレスに配置。
+*   チケットの最終更新日時（`updated_at`）から自動でシリアルナンバー（`No. YYYY-MMDD`）を発行する遊び心のある UI。
+*   各実績カードには使用技術バッジや GitHub / デモサイトへの外部リンクを完備。
 
-### 2. 専属AIギャルアシスタント「こゅまちゃむ」 (チャットボット)
-*   Mastra AI を活用した対話型チャットウィジェットを右下に搭載。
-*   ルート直下の `prof.md`（自己紹介シート）を同期的にマウントして読み込むため、内容を更新するだけで AI がリアルタイムに新しい情報を覚えます。
-*   「松本麻由子（まゆこむ）」を全力で推す、関西ギャル風の明るい口調で自己紹介や経歴をアピールします。
+### 2. ContextSwitch（コッチー）詳細LP (`/contextswitch`)
+*   自身が企画・要件定義から実装、21名規模のユーザーテスト運用まで一気通貫で行った思考整理チャット「ContextSwitch」の特設技術詳細ページ。
+*   **プレゼンスライド全11枚ビューア**: 画面上でスライド資料を快適に閲覧できるカルーセルUI。
+*   **実機デモ動画プレイヤー**: iPhone フレームに埋め込んだ実機操作デモ動画（MP4）をスムーズに自動再生・確認可能。
+*   **深掘り技術ドキュメント**: 「SimpleMem」客観記憶抽出と「Hindsight (pgvector)」連想検索のハイブリッド記憶構造、API コスト試算や B2B 展開を見据えた事業性検証データを網羅。
 
-### 3. セキュアなコンテンツ管理画面 (`/admin`)
-*   **Firebase 認証 ＆ 404ガード**：未認証のユーザーが `/admin` に直接アクセスしようとすると、存在自体を隠蔽するため `404 Not Found` を応答します。
-*   **管理者認可チェック (UID検証)**：バックエンド側で `ADMIN_UIDS` 環境変数に登録された Firebase UID のみを許可する認可チェックを実装（登録者以外の書き換えを完全にブロック）。
-*   **Partial Update (部分更新)**：プロフィール、実績、スキルの各情報を個別に編集可能。必要な項目のみを上書きし、省略された項目は既存のDBの値を維持します。
-*   **画像データのDB保存 ＆ プレビュー**：アバターや実績の画像データをPostgreSQL内にバイナリとして保存。アップロード時は瞬時にプレビューが表示されます。
+### 3. 専属 AI ギャルアシスタント「こゅまちゃむ」 (チャットボット)
+*   Mastra AI を活用した対話型チャットウィジェットを画面右下に常設。
+*   **ワンタップ質問ボタン**: 「経歴を教えて！」「得意なスキルは？」「希望の働き方は？」などのクイック質問チップを配置し、訪問者が迷わず対話可能。
+*   **就職希望条件・キャリア観への回答**: ルート直下の `prof.md`（自己紹介シート）を同期読み込み。上京ハイブリッド勤務、自社開発/受託への志向、モダン技術へのこだわり、自立できる給与目安などを、愛嬌ある関西ギャル風の口調で的確にプレゼン。
+*   **プロンプト安全制御**: 他の雇用形態を否定せず、前向きな意欲とチーム貢献姿勢を伝える厳格な振る舞いルールを適用。
+
+### 4. セキュアなコンテンツ管理画面 (`/admin`)
+*   **404 ステルスガード**: 未認証ユーザーが `/admin` にアクセスした場合、存在自体を秘匿するため `404 Not Found` を応答。
+*   **二重の管理者認可 (UID 検証)**: バックエンド側で Firebase Admin SDK を用い、`ADMIN_UIDS` に登録された正規の管理者 UID のみ更新権限を許可。
+*   **Partial Update (部分更新)**: プロフィール、実績、スキルの各情報を個別編集可能。未変更のフィールドは既存値を維持。
+*   **バイナリ画像管理**: 画像を PostgreSQL 内に安全に格納し、アップロード時は即座にプレビュー表示。
 
 ---
 
@@ -69,34 +81,42 @@ flowchart TD
 .
 ├── backend/                  # FastAPI バックエンド
 │   ├── src/
-│   │   ├── main.py           # アプリ初期化、CORS設定、各ルーターの合流
-│   │   ├── routers/          # 【分割モジュール】機能別のAPIRouter定義
+│   │   ├── main.py           # アプリ初期化、CORS設定、ルーター統合
+│   │   ├── routers/          # 機能別 API ルーターモジュール
 │   │   │   ├── images.py     # 画像アップロード・取得
 │   │   │   ├── profile.py    # プロフィール取得・更新
-│   │   │   ├── achievements.py # 実績 CRUD
+│   │   │   ├── achievements.py # 制作実績 CRUD
 │   │   │   ├── skills.py       # スキル CRUD
 │   │   │   ├── inquiries.py    # お問い合わせ送信
-│   │   │   └── chat.py         # Mastra AIチャット中継
-│   │   ├── crud.py           # データベース操作（Partial Update実装）
-│   │   ├── schemas.py        # Pydantic スキーマ
+│   │   │   └── chat.py         # Mastra AI チャット中継
+│   │   ├── crud.py           # DB 操作ロジック（Partial Update 実装）
+│   │   ├── schemas.py        # Pydantic 入出力スキーマ
 │   │   ├── models.py         # SQLAlchemy モデル定義
 │   │   └── firebase_auth.py  # Firebase Token / UID 検証モジュール
 │   └── pyproject.toml        # 依存パッケージ管理 (uv)
 │
-├── frontend/                 # Next.js フロントエンド
+├── frontend/                 # Next.js 16 フロントエンド
+│   ├── public/               # 静的アセット（スライド画像、デモ動画など）
 │   ├── src/
 │   │   ├── app/
-│   │   │   ├── admin/        # 管理画面（_components でタブごとにモジュール化）
-│   │   │   └── login/        # ログイン画面
-│   │   ├── components/       # 共通 UI・各セクションコンポーネント
+│   │   │   ├── page.tsx      # メインポートフォリオページ
+│   │   │   ├── contextswitch/ # ContextSwitch 詳細LP（スライド・動画）
+│   │   │   ├── admin/        # 管理画面（タブ別コンポーネント構成）
+│   │   │   └── login/        # 管理者ログイン画面
+│   │   ├── components/       # 共通 UI・フィーチャーコンポーネント
+│   │   │   ├── features/     # ChatWidget, AchievementsSection など
+│   │   │   └── ui/           # チケット風共通コンポーネント
 │   │   ├── hooks/            # カスタムフック (useChat, useAdminApi など)
 │   │   └── services/         # API クライアント (api.ts)
+│   └── package.json
 │
-├── mastra/                   # AI エージェントサーバー
-│   └── src/mastra/agents/    # エージェント定義（prof.md 読み込み・口調プロンプト）
+├── mastra/                   # Mastra AI エージェントサーバー
+│   └── src/mastra/agents/    # エージェント定義（portfolio-agent.ts）
 │
-├── prof.md                   # AIが読み込む自己紹介データ（ここを編集すればOK）
-└── docker-compose.yml        # Docker コンテナ定義
+├── prof.md                   # AIが読み込む自己紹介シート（経歴・実績・希望条件）
+├── docker-compose.yml        # Docker コンテナ定義（DB, BE, FE, Mastra）
+├── AGENTS.md                 # 開発・本番デプロイ運用ガイド
+└── README.md
 ```
 
 ---
@@ -104,12 +124,14 @@ flowchart TD
 ## 🛠️ ローカルセットアップ ＆ 起動手順
 
 ### 1. 環境変数の準備
-プロジェクトのルートディレクトリに `.env` ファイルを作成し、以下の項目を設定します。
+プロジェクトのルート直下に `.env` ファイルを作成し、必要な設定を記述します。
 
 ```env
-# OpenAI / Gemini API
+# AI API Key (Mastra)
 OPENAI_API_KEY=your_openai_api_key
-GEMINI_API_KEY=your_gemini_api_key
+
+# データベース設定
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/portfolio_db
 
 # Firebase Configuration (フロントエンド用)
 NEXT_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
@@ -121,37 +143,63 @@ NEXT_PUBLIC_FIREBASE_APP_ID=your_firebase_app_id
 
 # Firebase Configuration (バックエンド認証用)
 FIREBASE_PROJECT_ID=your_firebase_project_id
-
-# 管理者として書き込みを許可する Firebase UID (カンマ区切りで複数指定可能)
 ADMIN_UIDS=your_firebase_user_uid
+FIREBASE_SERVICE_ACCOUNT_KEY=/app/firebase-key.json
+
+# 本番デプロイ用 SSH 設定（ローカル参照用）
+EC2_HOST=your_ec2_public_ip
+EC2_USER=ubuntu
+EC2_KEY_PATH=~/.ssh/your-key.pem
+EC2_DIR=~/MyPortfolio
 ```
 
-### 2. 開発環境の起動（1コマンドセットアップ）
-以下の起動スクリプトを実行するだけで、コンテナのビルド・起動、データベースのマイグレーション、および初期データ（プロフィール・実績・スキルの画像を含む）の投入がすべて自動で実行されます。
-
+### 2. ローカル環境の起動
 ```bash
-# 起動スクリプトの実行
+# 初回・ワンコマンドセットアップ（起動・マイグレーション・シードデータ投入を自動完遂）
 ./start.sh
+
+# または通常起動
+docker compose up -d --build
 ```
 
-### 4. 動作確認
-ブラウザで以下のURLを開いて確認します。
-*   フロントエンド (ポートフォリオ): `http://localhost:3000`
+### 3. 動作確認 URL
+*   ポートフォリオ トップ: `http://localhost:3000`
+*   ContextSwitch 詳細LP: `http://localhost:3000/contextswitch`
 *   管理画面ログイン: `http://localhost:3000/login`
-*   バックエンド API ドキュメント (Swagger UI): `http://localhost:8000/docs`
-*   Mastra Studio (AIデバッグ): `http://localhost:5678`
+*   FastAPI Swagger UI: `http://localhost:8000/docs`
+*   Mastra Studio (AI デバッグ): `http://localhost:5678`
 
 ---
 
-## 💡 AIの自己紹介データ (prof.md) を更新した場合の反映手順
+## 🚀 本番デプロイフロー (AWS EC2)
 
-AIエージェント「こゅまちゃむ」が読み込む自己紹介シート（ルート直下の `prof.md`）を書き換えた際は、以下の手順で AI サーバーに新しいデータを読み込ませてください。
+本プロジェクトの本番環境（EC2）へのデプロイは、以下の実務フローに沿って安全に実行します。
 
-1. **Mastra コンテナの再起動**
-   Mastra サーバーは起動時に `prof.md` を一度だけロードしてメモリに保持するため、ファイルを更新した後はコンテナを再起動して再ロードを行います。
+1. **GitHub へのプッシュ（フィーチャーブランチ & PR マージ）**:
+   ```bash
+   git checkout -b feature/your-feature
+   git add . && git commit -m "feat: ..."
+   git push -u origin feature/your-feature
+   # GitHub 上で PR を作成・マージ後、ローカル main を最新化
+   git checkout main && git pull origin main
+   ```
+
+2. **EC2 への SSH 接続 & コンテナ更新**:
+   ```bash
+   ssh -i <EC2_KEY_PATH> -o StrictHostKeyChecking=no <EC2_USER>@<EC2_HOST> \
+     "cd <EC2_DIR> && git pull origin main && docker compose build frontend && docker compose up -d frontend && docker compose restart mastra"
+   ```
+
+---
+
+## 💡 AI自己紹介データ (`prof.md`) の更新手順
+
+AIエージェント「こゅまちゃむ」が参照する自己紹介データ（ルート直下の `prof.md`）を書き換えた際は、以下の手順で即座に反映されます。
+
+1. **Mastra コンテナの再起動**:
+   Mastra サーバーは起動時に `prof.md` をロードしてメモリに保持するため、更新後はコンテナを再起動します。
    ```bash
    docker compose restart mastra
    ```
-
-2. **チャットの対話履歴をリセット**
-   ブラウザのチャット画面右上にある **「リセット」** ボタンをクリックして会話ログを消去することで、古い前提知識に引っ張られることなく、新しいプロフィールに基づいた回答が開始されます。
+2. **チャットの対話履歴をリセット**:
+   画面上のチャットウィジェット右上にある「リセット」を行うことで、最新のプロフィール情報に基づいた新しい対話が開始されます。
